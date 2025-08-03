@@ -1,49 +1,74 @@
-import img from "../src/assets/react.svg";
+import { useState } from "react";
+import TabButton from "./TabButton";
 
-function getRandomNumber(max) {
-	return Math.floor(Math.random() * (max + 1));
-}
+import Header from "./Components/Header.jsx";
+import CoreConcepts from "./Components/CoreConcepts.jsx";
+import Section from "./Components/Section/Section.jsx";
 
-const reactDescriptions = ["Fundemental", "Crucial", "Core"];
-const description = reactDescriptions[getRandomNumber(2)];
-function Header() {
-	return (
-		<header>
-			<img src={img} alt='Stylized atom' />
-			<h1>React Essentials</h1>
-			<p>
-				{description} React concepts you will need for almost any app you are
-				going to build!
-			</p>
-		</header>
-	);
-}
-function CoreConcepts({ title, description }) {
-	return (
-		<li>
-			<img></img>
-			<h3>{title}</h3>
-			<p>{description}</p>
-		</li>
-	);
-}
+const label = "hi";
 function App() {
+	const [tabElement, setTabElement] = useState("");
+	const handleClick = (data) => {
+		console.log("Clicked", data);
+		setTabElement(data);
+	};
 	return (
 		<div>
 			<section id='core-concepts'>
 				<h2>CoreConcepts</h2>
-				<CoreConcepts
-					title='First Component'
-					description={"First Description"}
-				></CoreConcepts>
-				<CoreConcepts></CoreConcepts>
-				<CoreConcepts></CoreConcepts>
-				<CoreConcepts></CoreConcepts>
+				<div>
+					{" "}
+					<CoreConcepts
+						title='First Component'
+						description={"First Description"}
+					></CoreConcepts>
+					<CoreConcepts></CoreConcepts>
+					<CoreConcepts></CoreConcepts>
+					<CoreConcepts></CoreConcepts>
+				</div>
 			</section>
-			<Header />
+			<Header></Header>
 			<main>
 				<h2>Time to get started!</h2>
 			</main>
+			<Section id='examples'>
+				<h2>Examples</h2>
+				<menu>
+					<TabButton
+						handleClick={() => handleClick("components")}
+						label={label}
+					>
+						Component
+					</TabButton>
+					<TabButton
+						handleClick={() => handleClick("Components")}
+						label={label}
+					>
+						JSX
+					</TabButton>
+					<TabButton
+						handleClick={() => handleClick("Components")}
+						label={label}
+					>
+						Props
+					</TabButton>
+					<TabButton
+						handleClick={() => handleClick("Components")}
+						label={label}
+					>
+						State
+					</TabButton>
+				</menu>
+				<div id='tab-content'>
+					{!tabElement ? <h1>Please select a Topic</h1> : null}
+
+					{tabElement ? (
+						<div>
+							<h3>My Name</h3>
+						</div>
+					) : null}
+				</div>
+			</Section>
 		</div>
 	);
 }
