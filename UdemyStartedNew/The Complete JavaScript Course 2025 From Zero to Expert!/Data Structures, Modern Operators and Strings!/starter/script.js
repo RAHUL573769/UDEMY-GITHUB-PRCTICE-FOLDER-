@@ -4,25 +4,47 @@
 const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
-const italianFoods = new Set([
-  'pasta',
-  'gnocchi',
-  'tomatoes',
-  'olive oil',
-  'garlic',
-  'basil',
-]);
+// const italianFoods = new Set([
+//   'pasta',
+//   'gnocchi',
+//   'tomatoes',
+//   'olive oil',
+//   'garlic',
+//   'basil',
+// ]);
 
-const mexicanFoods = new Set([
-  'tortillas',
-  'beans',
-  'rice',
-  'tomatoes',
-  'avocado',
-  'garlic',
-]);
-
+// const mexicanFoods = new Set([
+//   'tortillas',
+//   'beans',
+//   'rice',
+//   'tomatoes',
+//   'avocado',
+//   'garlic',
+// ]);
+const weekdays = [
+  'mon',
+  'tue',
+  'wed',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+];
 // Data needed for first part of the section
+const hours = {
+  [weekdays[3]]: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
 const restaurant = {
   name: 'Classico Italiano',
   location: 'Via Angelo Tavanti 23, Firenze, Italy',
@@ -32,27 +54,19 @@ const restaurant = {
   order: function (startIndex, mainIndex) {
     return [this.starterMenu[startIndex], this.mainMenu[mainIndex]];
   },
-  orderPizza: function (mainIngredient, ...otherIngredients) {
+  // orderPizza: function (mainIngredient, ...otherIngredients) {
+  //   console.log(mainIngredient, otherIngredients);
+  // },
+  openingHours: hours,
+
+  orderPizza(mainIngredient, ...otherIngredients) {
     console.log(mainIngredient, otherIngredients);
   },
   orderDelivery: function (obj) {
     console.log(obj);
   },
-  openingHours: {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, // Open 24 hours
-      close: 24,
-    },
-  },
 };
+
 const a = [1, 2, 3, 4, 5];
 
 console.log(a);
@@ -74,7 +88,7 @@ const [i, j, k, l] = nested;
 console.log(l);
 
 //
-const { name, openingHours, categories } = restaurant;
+const { name, categories, openingHours } = restaurant;
 console.log('Opening Hours', openingHours);
 //Mutating Variables
 let a1 = 111;
@@ -141,3 +155,78 @@ restaurant.orderPizza('mushrooms', 'onions', 'pasta', 'cucumber');
 console.log(3 || 'Rahul');
 
 console.log(true || 0);
+
+const menu2 = [...restaurant.starterMenu, ...restaurant.mainMenu];
+for (const item of menu2) {
+  console.log(item);
+}
+console.log(menu2.entries());
+
+for (const [item, el] of menu2.entries()) {
+  console.log(`${item + 1}  Element ${el}`);
+}
+console.log(restaurant);
+
+const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+for (const day of days) {
+  const open = restaurant.openingHours[day]?.open ?? 'Closed';
+  console.log(`On ${day} , we open at ${open}`);
+}
+
+console.log(restaurant.order?.(0, 1) ?? 'Method doesnot exist');
+
+const values = Object.values(openingHours);
+
+const keys = Object.keys(openingHours);
+
+console.log('Values', values);
+const entries = Object.entries(openingHours);
+
+console.log('Entries', entries);
+
+for (const [key, { open, close }] of entries) {
+  console.log(`On ${key} we open at ${open} and close at ${close}`);
+}
+const orderSet = new Set(['Pasta', 'Pizza', 'Risoto', 'Pizza']);
+
+// console.log(new Set('Jonas'));
+// orderSet.add('Yammy');
+
+// orderSet.clear();
+// console.log(orderSet);
+const italianFoods = new Set([
+  'pasta',
+  'gnocchi',
+  'tomatoes',
+  'olive oil',
+  'garlic',
+  'basil',
+]);
+
+const mexicanFoods = new Set([
+  'tortillas',
+  'beans',
+  'rice',
+  'tomatoes',
+  'avocado',
+  'garlic',
+]);
+const commonFoods = italianFoods.intersection(mexicanFoods);
+
+console.log('Intersection', commonFoods);
+console.log([...commonFoods]);
+const italianMexicanFusion = italianFoods.union(mexicanFoods);
+
+console.log(italianMexicanFusion);
+
+const uniqueItalianFoods = italianFoods.difference(mexicanFoods);
+
+console.log(uniqueItalianFoods);
+
+const rest = new Map();
+rest.set('name', 'Classico Italino');
+rest.set('Categories', ['Italian', 'Pizerria', 'Vegetarian']);
+
+console.log(rest.get('name'));
+console.log(rest.size);
