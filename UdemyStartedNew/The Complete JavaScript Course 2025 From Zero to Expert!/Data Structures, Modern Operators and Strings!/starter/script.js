@@ -29,7 +29,15 @@ const restaurant = {
   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
-
+  order: function (startIndex, mainIndex) {
+    return [this.starterMenu[startIndex], this.mainMenu[mainIndex]];
+  },
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log(mainIngredient, otherIngredients);
+  },
+  orderDelivery: function (obj) {
+    console.log(obj);
+  },
   openingHours: {
     thu: {
       open: 12,
@@ -50,3 +58,86 @@ const a = [1, 2, 3, 4, 5];
 console.log(a);
 const c = a[3];
 console.log(c);
+const [first, second] = restaurant.categories;
+console.log(second);
+
+console.log(restaurant.order(2, 0));
+
+const [main, primary] = restaurant.order(2, 0);
+
+console.log(main);
+
+const nested = [1, 2, 3, [7, 8, 9]];
+
+const [i, j, k, l] = nested;
+
+console.log(l);
+
+//
+const { name, openingHours, categories } = restaurant;
+console.log('Opening Hours', openingHours);
+//Mutating Variables
+let a1 = 111;
+let b1 = 222;
+const obj = { a1: 32, b1: 67 };
+({ a1, b1 } = obj);
+
+console.log(a1);
+
+//nested objects'
+
+const {
+  fri: { open1, close1 },
+} = restaurant.openingHours;
+
+console.log(open1);
+
+restaurant.orderDelivery({
+  time: '12pm',
+  location: 'Kolkata',
+  startIndex: 2,
+  mainIndex: 5,
+});
+console.log(restaurant.orderDelivery());
+// ---------------
+const array = [7, 8, 9];
+const newArray = [...array];
+console.log(newArray);
+
+const menu1 = [...restaurant.mainMenu, ...restaurant.starterMenu];
+console.log(menu1);
+
+//Objects
+
+const newRestaurant = { ...restaurant, founder: 'Rahul Rudra' };
+const newRestaurantCopy = { ...restaurant, founder: 'Rahul Rudra-1' };
+
+console.log('New Restaurant', newRestaurant);
+console.log('New Restaurant Copy', newRestaurantCopy);
+const [pizza, , risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
+
+console.log(pizza);
+
+const { thu, ...otherDays } = restaurant.openingHours;
+console.log(otherDays);
+
+const add = function (...numbers) {
+  console.log(numbers);
+
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    console.log(sum);
+    sum = sum + numbers[i];
+  }
+};
+
+add(2, 3, 4, 5);
+
+restaurant.orderPizza('mushrooms', 'onions', 'pasta', 'cucumber');
+
+console.log(3 || 'Rahul');
+
+console.log(true || 0);
