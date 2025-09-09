@@ -79,10 +79,10 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
+// displayMovements(account1.movements);
 
-const calcPrintBalance = movements => {
-  const balance = movements.reduce((acc, currentElement, index, array) => {
+const calcPrintBalance = acc => {
+  const balance = acc.movements.reduce((acc, currentElement, index, array) => {
     console.log(`Iteration ${index} :${acc}`);
     return acc + currentElement;
   }, 0);
@@ -101,16 +101,15 @@ console.log(calcPrintBalance(account1.movements));
 
 //   labelSumIn.textContent = `${incomes}`;
 // };
-const calcDisplaySummary = movements => {
-  const incomes = movements
+const calcDisplaySummary = acc => {
+  console.log(acc);
+  const incomes = acc
     .filter(movement => movement > 0)
     .reduce((acc, mov) => acc + mov, 0);
 
   labelSumIn.textContent = `${incomes}`;
 
-  const out = movements
-    .filter(mov => mov < 0)
-    .reduce((acc, mov) => acc + mov, 0);
+  const out = acc.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)}`;
 
   //   const interest = movements
@@ -119,9 +118,9 @@ const calcDisplaySummary = movements => {
   //     .reduce((acc, int => acc + int, 0));
   //   labelSumInterest.textContent = interest;
   // };
-  const interest = movements
+  const interest = acc
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * 1.3) / 100)
     .reduce((acc, int) => acc + int, 0);
 
   labelSumInterest.textContent = interest;
@@ -129,10 +128,64 @@ const calcDisplaySummary = movements => {
 calcDisplaySummary(account1.movements);
 // calcPr
 // intBalance(account1.movements);
-////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
 
+//Implementing Login
+
+let currentAccount;
+btnLogin.addEventListener('click', e => {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // console.log('Login Successfull');
+    labelWelcome.textContent = `Welcome Back ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    // inputLoginUsername = inputLoginPin.value = ' ';
+    // inputLoginPin.blur();
+    displayMovements(currentAccount.movements);
+    calcPrintBalance(currentAccount);
+    calcDisplaySummary(currentAccount);
+  }
+  // console.log('Login');
+});
+console.log(accounts);
+
+btnTransfer.addEventListener('click', e => {
+  e.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+
+  const receiverAccount = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+
+  console.log(amount, receiverAccount);
+
+  // if(amount>0 && )
+});
+// console.log(createUserNames(accounts));
+// console.log(createUserNames('Steven William Thomas'));
+
+// const user = userName
+//   .toLowerCase()
+//   .split(' ')
+//   .map(name => {
+//     return name[0];
+//   })
+//   .join('');
+
+// console.log(user);
+
+// ----------------------
+
+// LECTURES----------------------------------------------------------------------
+const euroToUsd = 1.1;
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
@@ -213,73 +266,6 @@ movements.forEach((movement, index, array) => {
     console.log(`You With drew ${Math.abs(movement)}`);
   }
 });
-
-const currencies1 = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
-currencies1.forEach((value, key, map) => {
-  console.log('Value', value);
-  console.log('Key', key);
-  console.log('Map', map);
-});
-
-const euroToUsd = 1.1;
-const movementsUsd = movements.map(
-  (movement, index, array) => movement * euroToUsd
-);
-
-// console.log(movementsUsd);
-
-const createUserNames = accs => {
-  accs.forEach(acc => {
-    console.log(acc);
-
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(' ')
-      .map(name => {
-        return name[0];
-      })
-      .join('');
-    // const user = acc
-    //   .toLowerCase()
-    //   .split(' ')
-    //   .map(name => {
-    //     return name[0];
-    //   })
-    //   .join('');
-
-    // return user;
-  });
-};
-
-createUserNames(accounts);
-console.log(accounts);
-
-// console.log(createUserNames(accounts));
-// console.log(createUserNames('Steven William Thomas'));
-
-// const user = userName
-//   .toLowerCase()
-//   .split(' ')
-//   .map(name => {
-//     return name[0];
-//   })
-//   .join('');
-
-// console.log(user);
-
-const deposit = movements.filter(movement => {
-  return movement > 0;
-});
-
-console.log('Deposits', deposit);
-
-console.log('Movements', movements);
-
 // const balance = movements.reduce(
 //   acc,
 //   currentElement,
@@ -312,3 +298,57 @@ const finalData = movements
   .reduce((acc, mov) => acc + mov, 0);
 
 // console.log('Final Data', finalData);
+
+////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+const currencies1 = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+currencies1.forEach((value, key, map) => {
+  console.log('Value', value);
+  console.log('Key', key);
+  console.log('Map', map);
+});
+
+const movementsUsd = movements.map(
+  (movement, index, array) => movement * euroToUsd
+);
+
+// console.log(movementsUsd);
+
+const createUserNames = accs => {
+  accs.forEach(acc => {
+    console.log(acc);
+
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => {
+        return name[0];
+      })
+      .join('');
+    // const user = acc
+    //   .toLowerCase()
+    //   .split(' ')
+    //   .map(name => {
+    //     return name[0];
+    //   })
+    //   .join('');
+
+    // return user;
+  });
+};
+
+createUserNames(accounts);
+
+const deposit = movements.filter(movement => {
+  return movement > 0;
+});
+
+console.log('Deposits', deposit);
+
+console.log('Movements', movements);
