@@ -80,7 +80,56 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
-/////////////////////////////////////////////////
+
+const calcPrintBalance = movements => {
+  const balance = movements.reduce((acc, currentElement, index, array) => {
+    console.log(`Iteration ${index} :${acc}`);
+    return acc + currentElement;
+  }, 0);
+  // return balance;
+  labelBalance.textContent = `${balance} Euro`;
+};
+
+console.log(calcPrintBalance(account1.movements));
+
+// const calcDisplaySummary = movements => {
+//   const incomes = movements
+//     .filter(movement => movement > 0)
+//     .reduce((acc, mov) => {
+//       return acc + mov, 0;
+//     });
+
+//   labelSumIn.textContent = `${incomes}`;
+// };
+const calcDisplaySummary = movements => {
+  const incomes = movements
+    .filter(movement => movement > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  labelSumIn.textContent = `${incomes}`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}`;
+
+  //   const interest = movements
+  //     .filter(mov => mov > 0)
+  //     .map(deposit => (deposit * 1.2) / 100)
+  //     .reduce((acc, int => acc + int, 0));
+  //   labelSumInterest.textContent = interest;
+  // };
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .reduce((acc, int) => acc + int, 0);
+
+  labelSumInterest.textContent = interest;
+};
+calcDisplaySummary(account1.movements);
+// calcPr
+// intBalance(account1.movements);
+////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
@@ -222,3 +271,44 @@ console.log(accounts);
 //   .join('');
 
 // console.log(user);
+
+const deposit = movements.filter(movement => {
+  return movement > 0;
+});
+
+console.log('Deposits', deposit);
+
+console.log('Movements', movements);
+
+// const balance = movements.reduce(
+//   acc,
+//   currentElement,
+//   index,
+//   array => {
+//     return acc + currentElement;
+//   },
+//   0
+// );
+const balance = movements.reduce((acc, currentElement, index, array) => {
+  console.log(`Iteration ${index} :${acc}`);
+  return acc + currentElement;
+}, 0);
+console.log(balance);
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) {
+    return acc;
+  } else {
+    return mov;
+  }
+}, movements[0]);
+
+console.log(max);
+//const max = movements.reduce((acc, mov) => (acc > mov ? acc : mov), movements[0]);
+
+// const max = movements.reduce((acc, mov) => Math.max(acc, mov), movements[0]);
+const finalData = movements
+  .filter(movement => movement > 0)
+  .map(mov => mov * euroToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+
+// console.log('Final Data', finalData);
