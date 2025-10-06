@@ -30,6 +30,9 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(`Here is your Pasta with ${ing1},${ing2} and ${ing3} `);
+  },
   openingHours: {
     thu: {
       open: 12,
@@ -45,3 +48,68 @@ const restaurant = {
     },
   },
 };
+
+const array = [1, 2, 3, 4];
+
+const badArray = [1, 2, 3, 4, 5, ...array];
+
+console.log(badArray);
+
+const newMenu = [...restaurant.mainMenu, 'Yokii'];
+console.log(newMenu);
+
+//Join Array
+
+const newMenu1 = [...restaurant.mainMenu, ...restaurant.starterMenu];
+console.log(newMenu1);
+//Iterables:Arrays,Strings,Maps,Objects,Sets
+// const ingredients = [
+//   prompt('Lets Make Pasta Ingredient 1'),
+//   prompt('Lets Make Pasta Ingredient 2'),
+//   prompt('Lets Make Pasta Ingredient 3'),
+// ];
+
+// console.log(ingredients);
+// restaurant.orderPasta(...ingredients);
+//------------------------------Rest Parameter/////////////
+
+const [firstElement, ...secondElement] = [1, 2, 3, , 45, 5, 3, 2];
+
+console.log(typeof secondElement);
+
+const addFunction = function (num1, ...numbers) {
+  console.log(numbers);
+  console.log(num1);
+};
+
+addFunction(1, 23, 4, 5, 6);
+
+// const x = [1, 2, 3, 4];
+// addFunction(...x);
+
+// And Or Operator
+console.log(3 || 'Jonas');
+console.log(typeof !!0);
+// dvdvdsvsdvsdvbdsn,s
+
+//Logical Operators
+const rest1 = {};
+const players = {
+  goals: ['Lewandoski', 'Higuewn', 'Ronaldo'],
+};
+
+const goalsScored = (...players2) => {
+  console.log('102', players2);
+};
+
+goalsScored(...players.goals);
+
+console.log(players.goals);
+
+console.log(newMenu1.entries());
+
+for (const [i, el] of newMenu1.entries()) {
+  // console.log(i);
+
+  console.log(`${i + 1}:${el}`);
+}
